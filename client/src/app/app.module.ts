@@ -1,14 +1,21 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.component';
-import { SiteLayoutComponent } from './shared/layouts/site-layout/site-layout.component';
-import { RegisterPageComponent } from './register-page/register-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { NgModule } from '@angular/core';
+import { RegisterPageComponent } from './register-page/register-page.component';
+import { SiteLayoutComponent } from './shared/layouts/site-layout/site-layout.component';
+import { TokenInterceptor } from './shared/clasees/token.interceptor';
+
+const INTERCEPTOR_PROVIDER = {
+  provide: HTTP_INTERCEPTORS,
+  multi: true,
+  useClass: TokenInterceptor
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,9 +28,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

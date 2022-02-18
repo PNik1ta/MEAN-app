@@ -1,16 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
+
+import { AuthService } from './../shared/services/auth.service';
+import { MaterialService } from './../shared/clasees/material.service';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
+  aSub?: Subscription;
 
-  constructor() {
+  constructor(private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute) {
     this.form = new FormGroup({});
   }
 
@@ -18,11 +26,36 @@ export class LoginPageComponent implements OnInit {
     this.form = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required, Validators.minLength(6)])
+    });
+
+    this.route.queryParams.subscribe((params: Params) => {
+      if (params['registered']) {
+        MaterialService.toast('You can enter to the system');
+      }
+      else if (params['accessDenied']) {
+        MaterialService.toast('Access denied. Please authorize');
+      }
+      else if (params['sessionFailed']) {
+        MaterialService.toast('Please enter again');
+      }
     })
   }
 
-  onSubmit() {
+  ngOnDestroy(): void {
+    if (this.aSub) {
+      this.aSub.unsubscribe();
+    }
+  }
 
+  onSubmit() {
+    this.form.disable();
+    this.aSub = this.auth.login(this.form.value).subscribe(
+      () => this.router.navigate(['/overview']),
+      (error) => {
+        MaterialService.toast(error.error.message);
+        this.form.enable();
+      }
+    );
   }
 
 }
