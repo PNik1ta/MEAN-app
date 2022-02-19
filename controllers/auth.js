@@ -19,7 +19,7 @@ module.exports.login = async (req, res) => {
 			}, keys.JWT, { expiresIn: 3600 });
 
 			res.status(200).json({
-				token: token
+				token: `Bearer ${token}`
 			})
 		} else {
 			res.status(401).json({
