@@ -11,6 +11,7 @@ import { OrderPageComponent } from './order-page/order-page.component';
 import { OverviewPageComponent } from './overview-page/overview-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
 import { SiteLayoutComponent } from './shared/layouts/site-layout/site-layout.component';
+import { CategoriesFormComponent } from './assortment-page/categories-form/categories-form.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,8 @@ const routes: Routes = [
       { path: 'history', component: HistoryPageComponent },
       { path: 'order', component: OrderPageComponent },
       { path: 'assortment', component: AssortmentPageComponent },
+      { path: 'assortment/new', component: CategoriesFormComponent },
+      { path: 'assortment/:id', component: CategoriesFormComponent }
     ]
   }
 ];
