@@ -3,7 +3,7 @@ import { MaterialService } from './../../shared/clasees/material.service';
 import { of } from 'rxjs';
 import { CategoryService } from './../../shared/services/categories.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { switchMap } from 'rxjs';
 
@@ -22,7 +22,8 @@ export class CategoriesFormComponent implements OnInit {
   category?: Category;
 
   constructor(private route: ActivatedRoute,
-    private categoryService: CategoryService) {
+    private categoryService: CategoryService,
+    private router: Router) {
     this.form = new FormGroup({});
   }
 
@@ -94,12 +95,28 @@ export class CategoriesFormComponent implements OnInit {
         this.category = category;
         MaterialService.toast('Changes saved');
         this.form.enable();
+        this.router.navigate(['/assortment']);
       },
       error => {
         MaterialService.toast(error.error.message);
         this.form.enable();
       }
     )
+  }
+
+  deleteCategory(): void {
+    const decision = window.confirm(`Are you sure, that you want to delete category ${this.category?.name}`);
+    if (decision) {
+      if (this.category?._id) {
+        this.categoryService.delete(this.category._id)
+          .subscribe(
+            response => MaterialService.toast(response.message),
+            error => MaterialService.toast(error.error.message),
+            () => this.router.navigate(['/assortment'])
+          );
+      }
+
+    }
   }
 
 }
