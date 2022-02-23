@@ -4,6 +4,7 @@ const errorHandler = require('../utils/errorHandler');
 
 module.exports.getAll = async (req, res) => {
 	try {
+		console.log(req.user);
 		const categories = await Category.find({ user: req.user.id });
 		res.status(200).json(categories);
 	} catch (error) {
@@ -47,8 +48,6 @@ module.exports.create = async (req, res) => {
 		errorHandler(res, error);
 	}
 }
-
-//TODO: update
 module.exports.update = async (req, res) => {
 	const updated = {
 		name: req.body.name,
