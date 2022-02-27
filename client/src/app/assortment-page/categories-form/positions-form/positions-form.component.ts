@@ -1,8 +1,9 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MaterialService, MaterialInstance } from './../../../shared/clasees/material.service';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MaterialInstance, MaterialService } from './../../../shared/clasees/material.service';
+
 import { Position } from './../../../shared/interfaces';
 import { PositionService } from './../../../shared/services/positions.service';
-import { Component, Input, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-positions-form',
@@ -14,7 +15,7 @@ export class PositionsFormComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('modal') modalRef!: ElementRef;
   positions: Position[] = [];
   loading: boolean = false;
-  positionId: number | undefined = undefined;
+  positionId: string | undefined = undefined;
   modal!: MaterialInstance;
   form!: FormGroup;
 

@@ -18,6 +18,8 @@ import { OrderPageComponent } from './order-page/order-page.component';
 import { AssortmentPageComponent } from './assortment-page/assortment-page.component';
 import { LoaderComponent } from './shared/components/loader/loader.component';
 import { PositionsFormComponent } from './assortment-page/categories-form/positions-form/positions-form.component';
+import { OrderCategoriesComponent } from './order-page/order-categories/order-categories.component';
+import { OrderPositionsComponent } from './order-page/order-positions/order-positions.component';
 
 const INTERCEPTOR_PROVIDER = {
   provide: HTTP_INTERCEPTORS,
@@ -38,7 +40,9 @@ const INTERCEPTOR_PROVIDER = {
     AssortmentPageComponent,
     LoaderComponent,
     CategoriesFormComponent,
-    PositionsFormComponent
+    PositionsFormComponent,
+    OrderCategoriesComponent,
+    OrderPositionsComponent
   ],
   imports: [
     BrowserModule,
